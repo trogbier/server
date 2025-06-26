@@ -40,7 +40,7 @@ class authController {
       return res.json({ message: "Пользователь успешно зарегистрирован" })
     } catch (e) {
       console.log(e)
-      res.status(400).json({ message: "Registration error" })
+      res.status(400).json({ message: "Ошибка регистрации" })
     }
   }
 
@@ -58,13 +58,17 @@ class authController {
         return res.status(400).json({ message: `Введен неверный пароль` })
       }
       const token = generateAccessToken(user._id, user.roles)
-      return res.json({ token })
+      let siteRoute = "index.html"
+
+      if (user.roles == "ADMIN") {
+        siteRoute = "admin.html"
+      }
+      return res.json({ token, siteRoute })
     } catch (e) {
       console.log(e)
-      res.status(400).json({ message: "Login error" })
+      res.status(400).json({ message: "Ошибка авторизации" })
     }
   }
-
 }
 
 module.exports = new authController()
