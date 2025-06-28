@@ -3,17 +3,21 @@ const { secret } = require("../config")
 
 module.exports = function (roles) {
   return function (req, res, next) {
-
     if (req.method === "OPTIONS") {
       next()
     }
 
     try {
       const token = req.headers.authorization
-      
+
+      if (!token) {
+        token = req.query.token
+      }
+
       if (!token) {
         return res.status(403).json({ message: "Пользователь не авторизован" })
       }
+
       const { roles: userRoles } = jwt.verify(token, secret)
       let hasRole = false
       userRoles.forEach((role) => {
