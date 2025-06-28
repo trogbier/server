@@ -1,6 +1,5 @@
 const { secret } = require("../config")
 const jwt = require("jsonwebtoken")
-const User = require("../models/User")
 const Alert = require("../models/Alert")
 
 class userController {

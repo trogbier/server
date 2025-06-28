@@ -4,6 +4,8 @@ const mongoose = require("mongoose")
 const authRouter = require("./Routers/authRouter")
 const userRouter = require("./Routers/userRouter")
 const adminRouter = require("./Routers/adminRouter")
+const { mail, pass } = require("./config")
+const uri = `mongodb+srv://${mail}:${pass}@gps.tuftkco.mongodb.net/?retryWrites=true&w=majority&appName=gps`
 
 const cors = require("cors")
 
@@ -24,7 +26,7 @@ app.use("/admin", adminRouter)
 
 const start = async () => {
   try {
-    await mongoose.connect("mongodb://localhost:27017/gpsApp")
+    await mongoose.connect(uri)
     app.listen(PORT, () => console.log(`server start on ${PORT}`))
   } catch (error) {
     console.log(error)
