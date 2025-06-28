@@ -1,5 +1,12 @@
-// const Router = require("express")
-// const router = new Router()
-// const roleMiddleware = require("../middleware/roleMiddleware")
+const Router = require("express")
+const router = new Router()
+const roleMiddleware = require("../middleware/roleMiddleware")
+const controller = require("../Controllers/adminController")
 
-// router.get("/users", roleMiddleware(["ADMIN"]), )
+router.get(
+  "/adminBroadcasting",
+  roleMiddleware(["ADMIN"]),
+  controller.broadcastingAdmin
+)
+
+module.exports = router

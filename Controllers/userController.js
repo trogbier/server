@@ -1,6 +1,7 @@
 const { secret } = require("../config")
 const jwt = require("jsonwebtoken")
 const User = require("../models/User")
+const Alert = require("../models/Alert")
 
 class userController {
   async broadcastingGps(req, res) {
@@ -10,14 +11,13 @@ class userController {
 
       const token = req.headers.authorization
 
-      if (!token) {
-        return res.status(403).json({ message: "Пользователь не авторизован" })
-      }
-      let { id } = jwt.verify(token, secret)
-
-      await User.findByIdAndUpdate(id, {
-        $set: { coordinates: [latitude, longitude] },
+      let { username } = jwt.verify(token, secret)
+      const alert = new Alert({
+        username,
+        coordinates: [latitude, longitude],
+        tel: 89885882166,
       })
+      await alert.save()
       res.status(200).json({ message: "GPS broadcasted" })
     } catch (e) {
       res.status(500).json({ error: "Broadcasting failed" })
